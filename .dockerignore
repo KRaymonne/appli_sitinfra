@@ -1,0 +1,5 @@
+node_modules
+dist
+netlify/functions-dist
+npm-debug.log
+.DS_Store

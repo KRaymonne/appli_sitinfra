@@ -1,0 +1,1671 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init 
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  ACCOUNTANT // comptable
+  DIRECTOR
+  EMPLOYEE
+  HR
+  SECRETARY
+  TECHNICIAN
+  DIRECTEUR_TECHNIQUE
+  DIRECTEUR_ADMINISTRATIF
+  SENIOR_TECHNICIAN
+  ENGINEER
+  EXECUTIVE
+  INTERN
+  DRIVER
+  PRESIDENT_DIRECTEUR_GENERALE
+  SECRETARIAT
+  DIRECTION_ADMINISTRATIVE
+  AUDIT_ET_CONTROLE_DE_GESTION
+  ADMINISTRATIF_FINANCIER
+  RESSOURCES_HUMAINES
+  DIRECTION_COMMERCIALE
+  DEMARCHE_COMMERCIALE
+  AMID_DAO
+  DIRECTION_TECHNIQUE
+  PROJET_VRD
+  TOPOGRAPHIE
+  SIG
+  ENVIRONNEMENT_SOCIOLOGUE
+  BD_GENIE
+  PK_BIM
+  APP
+  WEB_MIA
+  DIRECTION_INFORMATIQUE
+}
+
+enum Structure {
+  SITINFRA
+  SITALIA
+  PKBIM
+  GEOTOP
+  SITInfrastructure
+}
+
+// Nouvelles Enums fusionnées
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+}
+
+enum Workcountry {
+  IVORY_COAST
+  GHANA
+  BENIN
+  CAMEROON
+  TOGO
+  ROMANIE
+  ITALIE
+  ITALIEPKBIM
+  GUINEE
+  BURKINAFASO
+  SIERRALEONE
+}
+
+enum IdentityType {
+  NATIONAL_ID_CARD
+  PASSPORT
+  DRIVER_LICENSE
+}
+
+enum UserStatus {
+  ON_HOLIDAY
+  SUSPENDED
+  FIRED
+  ACTIVE
+}
+
+enum ContractType {
+  PERMANENT_CONTRACT_CDI
+  FIXED_TERM_CONTRACT_CDD
+  INTERNSHIP
+  CONSULTANT
+}
+
+enum AbsenceType {
+  ILLNESS
+  ANNUAL_LEAVE
+  AUTHORIZED_LEAVE
+  HALF_DAY
+  UNJUSTIFIED_LEAVE
+  MATERNITY_LEAVE
+}
+
+enum BonusType {
+  PERFORMANCE
+  SENIORITY
+  SPECIAL
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+}
+
+enum BonusStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum SanctionType {
+  WARNING
+  SUSPENSION
+  DEMOTION
+}
+
+enum AffectationType {
+  PERMANENT // Affectation à long terme ou par défaut
+  TEMPORARY // Affectation à court terme ou mission
+  TRANSFER
+  PROJECT_BASED
+  SPECIAL_ASSIGNMENT // Affectation spéciale ou mission
+}
+
+enum VehicleTypeEnum {
+  CAR
+  TRUCK
+  VAN
+  MOTORCYCLE
+}
+
+enum VehicleFuelType {
+  GASOLINE
+  DIESEL
+  ELECTRIC
+  HYBRID
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  IN_USE
+  UNDER_MAINTENANCE
+  OUT_OF_SERVICE
+}
+
+enum GarageType {
+  PUBLIC
+  PRIVATE
+  AUTHORIZED
+}
+
+enum AuthorizationTypeEnum {
+  CIRCULER
+  NON_CIRCULABLE
+}
+
+enum AuthorizationStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum ContentieuxFaultAttribution {
+  STATE
+  HOLDER
+  UNDETERMINED
+}
+
+enum ContentieuxStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum InterventionType {
+  MAINTENANCE
+  REPAIR
+  INSPECTION
+}
+
+enum InterventionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum PieceType {
+  INSURANCE
+  TECHNICAL_VISIT
+  REGISTRATION
+}
+
+enum ExpenseStatus {
+  NON_PAYE
+  PAYE
+  REMBOURSE
+}
+
+enum PaymentType {
+  CARD
+  CASH
+  TRANSFER
+}
+
+enum DisposalMethod {
+  SALE
+  DESTRUCTION
+  DONATION
+}
+
+enum CardBadgeType {
+  TOTAL
+  SHELL
+  OTHER
+}
+
+enum EquipmentCategory {
+  TOPOGRAPHIC_MATERIALS
+  COMPUTER_MATERIALS
+  OTHERS
+}
+
+enum EquipmentType {
+  NIVEAUX_LASER
+  PELETEUSES
+  BETONNIERES
+  SCIES_A_BETON
+  ECHAFAUDAGES
+  COMPRESSEURS_AIR
+  ENGIN_DE_COMPACTAGE
+  CAMIONS_DE_TRANSPORT
+  MESUREURS_DE_DISTANCE_LASER
+  GENERATEURS
+  ORDINATEURS_PORTABLES
+  TABLETTES
+  LOGICIELS_DE_GESTION_DE_PROJET
+  DRONES
+  IMPRIMANTES_3D
+  OTHER_Equipement
+}
+
+enum EquipmentBrand {
+  LEICA
+  TRIMBLE
+  TOPCON
+  SOKKIA
+  NIKON
+  PENTAX
+  SPECTRA
+  GEO_FENNEL
+  SOUTH
+  STONEX
+  OTHER_BRAND
+}
+
+enum EquipmentSupplier {
+  DELUXE_C
+  STIALA_C
+  DIGITOP
+  OTHER_SUPPLIER
+}
+
+enum EquipmentStatus {
+  GOOD
+  BAD
+  BROKEN
+  DECOMMISSIONED
+  LOST
+}
+
+enum EquipmentOwnership {
+  PRIVATE
+  COMPANY
+  TENANT
+  OTHER
+}
+
+enum AssignmentStatus {
+  ASSIGNED
+  IN_TRANSIT
+  RETURNED
+  CANCELLED
+}
+
+enum RevisionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum MaintenanceTypeEnum {
+  PREVENTIVE
+  CORRECTIVE
+  PREDICTIVE
+}
+
+enum RepairType {
+  MECHANICAL
+  ELECTRONIC
+  SOFTWARE
+  BODYWORK
+  OTHER
+}
+
+enum EquipmentExpenseType {
+  PURCHASE
+  MAINTENANCE
+  REPAIR
+  REVISION
+  CALIBRATION
+  OTHER
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER_OUT
+  TRANSFER_IN
+}
+
+enum ExpenseCategory {
+  MTN_PHONE
+  CUSTOMS
+  TRANSPORT
+  TENDER_DOCUMENTS
+  ADVERTISING
+  INSURANCE
+  MISCELLANEOUS
+}
+
+enum SupplyType {
+  MAINTENANCE_PRODUCTS
+  WATER
+  ELECTRICITY
+  FUEL
+  SMALL_EQUIPMENT
+  NONE
+}
+
+enum BusinessStatus {
+  PROSPECT
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum ContactCompany {
+  SITINFRA_SARL
+  GEOTOP
+  SITALIA
+  OTHER_COMPANY
+}
+
+enum ContactGroup {
+  CLIENT
+  SUPPLIER
+  CONSULTANTS
+  PUBLIC_ADMINISTRATION
+  OTHERS
+}
+
+enum ServiceType {
+  ACCOUNTING_SOFTWARE_LICENSE_FEE
+  PROFESSIONAL_FEES
+  AIR_TICKET
+  BUILDING_RENTAL
+  INTERNET
+  BUSINESS_TRIP_ASSIGNMENT
+  MAINTENANCE_REPAIR_MOVABLE_PROPERTY
+  RECEPTIONS_HOSPITALITY
+  OTHER_SERVICE
+}
+
+enum ChargeType {
+  APPOINTEMENTS_SALAIRES_ET_COMMISSIONS
+  CHARGES_SOCIALES_SUR_REMUNERATION_PERSONNEL_NATIONAL
+  PERSONNEL_DETACHE_OU_PRETE_A_L_ENTREPRISE_MANUTENTION
+  PRESTATAIRE
+  OTHER_CHARGE
+}
+
+enum InvoiceStatus {
+  PAID
+  PENDING
+  OVERDUE
+}
+
+enum TaxType {
+  VAT
+  INCOME_TAX
+  CORPORATE_TAX
+  SOCIAL_CONTRIBUTIONS
+  OTHER_TAX
+}
+
+enum TaxStatus {
+  TO_PAY
+  PAID
+  OVERDUE
+}
+
+enum AlertPriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum BankAccountType {
+  CHECKING_ACCOUNT
+  SAVINGS_ACCOUNT
+  PROJECT_ACCOUNT
+}
+
+enum DAOSubmissionType {
+  ELECTRONIC
+  PHYSICAL
+  EMAIL
+}
+
+enum DAOStatus {
+  APPLICATION
+  UNDER_REVIEW
+  PENDING
+  SHORTLISTED
+  BID_SUBMITTED
+  NOT_PURSUED
+}
+
+enum DEVISE {
+  XAF //: Franc CFA BEAC
+  XOF //: Franc CFA UEMOA
+  EUR //: Euro
+  GNF //: Franc Guinéen 
+  GHS //: Cedi Ghanéen
+  RON //: Leu Roumain
+  SLE //: Leone
+  USD //: Dollar Américain 
+}
+
+// Modèle User 
+model User {
+  // Attributs existants (Identifiants et Rôle)
+  id     Int        @id @default(autoincrement()) // Sert également d'employeeId
+  role   UserRole
+  status UserStatus
+
+  // Attributs du Personel (Détails Personnels et Professionnels)
+  employeeNumber String @unique // Numéro d'employé
+  firstName      String
+  lastName       String
+  email          String @unique
+  password       String
+
+  // Détails Personnels étendus
+  dateOfBirth            DateTime
+  placeOfBirth           String
+  devise                 DEVISE        @default(XAF)
+  civilityDropdown       Gender
+  maritalStatus          MaritalStatus
+  nationality            String
+  identityType           IdentityType
+  identity               String // Type String pour les documents d'identité (lettres, longs numéros)
+  workcountry            Workcountry // Pays de travail (utile pour les multinationales)
+  structureName          Structure?
+  isStructureResponsible Boolean       @default(false)
+
+  // Coordonnées
+  address String
+  phone   String // numero 1
+  phoneno String // numero 2
+  gender  Gender // 
+  country String //  
+
+  // Contact d'urgence
+  emergencyName    String
+  emergencyContact String
+  childrenCount    Int    @default(0) // Nombre d'enfants
+
+  // Détails de l'emploi
+  department String
+  salary     Float
+  hireDate   DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  contracts            Contract[]
+  absences             Absence[]
+  bonuses              Bonus[]
+  sanctions            Sanction[]
+  medicalRecords       MedicalRecord[]
+  affectations         Affectation[]
+  equipmentAssignments Assignment[]
+  responsibleRegisters Register[]
+  companyExpenses      CompanyExpense[]
+  alerts               Alert[]
+
+  // Relations One-to-One existantes
+  accountant         AccountantProfile?
+  director           DirectorProfile?
+  employee           EmployeeProfile?
+  secretary          SecretaryProfile?
+  driver             DriverProfile?
+  SoftwareAssignment SoftwareAssignment[]
+
+  @@map("users")
+}
+
+// Modèles de Profils liés au modèle User principal
+model AccountantProfile {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique
+  accountingDept String
+  additionalInfo String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model DirectorProfile {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique
+  departmentHead String
+  additionalInfo String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model EmployeeProfile {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique
+  position       String
+  additionalInfo String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model SecretaryProfile {
+  id             Int      @id @default(autoincrement())
+  userId         Int      @unique
+  office         String
+  additionalInfo String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model DriverProfile {
+  id                Int      @id @default(autoincrement())
+  userId            Int      @unique
+  licenseNumber     String
+  licenseExpiryDate DateTime // Using DateTime for date fields in Prisma
+  assignedVehicleId Int? // Assumed it could be nullable if not currently assigned
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Contract {
+  contractId       Int          @id @default(autoincrement())
+  userId           Int // Clé étrangère vers User
+  contractType     ContractType
+  startDate        DateTime
+  endDate          DateTime? // Optionnel (CDI)
+  post             String
+  department       String
+  unit             String? // Ajouté pour plus de précision
+  grossSalary      Float // Changé en Float pour la cohérence
+  netSalary        Float
+  currency         DEVISE       @default(XAF)
+  contractFile     String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("contracts")
+}
+
+model Absence {
+  absenceId          Int         @id @default(autoincrement())
+  userId             Int // Clé étrangère vers User
+  absenceType        AbsenceType
+  description        String?
+  startDate          DateTime
+  endDate            DateTime
+  daysCount          Int
+  returnDate         DateTime
+  supportingDocument String? // URL ou chemin du document
+  Inserteridentity   String?
+  InserterCountry    String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("absences")
+}
+
+model Bonus {
+  bonusId            Int           @id @default(autoincrement())
+  userId             Int // Clé étrangère vers User
+  bonusType          BonusType
+  amount             Float // Changé en Float
+  currency           DEVISE        @default(XAF)
+  awardDate          DateTime
+  reason             String?
+  paymentMethod      PaymentMethod
+  status             BonusStatus
+  supportingDocument String? // URL ou chemin du document
+  Inserteridentity   String?
+  InserterCountry    String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("bonuses")
+}
+
+model Sanction {
+  sanctionId         Int          @id @default(autoincrement())
+  userId             Int // Clé étrangère vers User
+  sanctionType       SanctionType
+  reason             String
+  sanctionDate       DateTime
+  durationDays       Int? // Optionnel (e.g., Avertissement n'a pas de durée)
+  decision           String? // Ajouté : plus de détails sur la décision finale
+  supportingDocument String? // URL ou chemin du document
+  Inserteridentity   String?
+  InserterCountry    String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("sanctions")
+}
+
+model MedicalRecord {
+  medicalRecordsId Int       @id @default(autoincrement())
+  userId           Int // Clé étrangère vers User
+  visitDate        DateTime
+  description      String?
+  diagnosis        String?
+  testsPerformed   String?
+  testResults      String?
+  prescribedAction String?
+  notes            String?
+  nextVisitDate    DateTime?
+  medicalFile      String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("medical_records")
+}
+
+model Affectation {
+  affectationsId   Int             @id @default(autoincrement())
+  userId           Int // Clé étrangère vers User
+  workLocation     String // Lieu de travail (e.g., ville, adresse)
+  site             String // Nom du site ou du bureau
+  affectationtype  AffectationType
+  description      String? // Description de la raison de l'affectation
+  startDate        DateTime
+  endDate          DateTime? // Optionnel (s'il s'agit d'une affectation permanente)
+  attached_file    String? // URL ou chemin du document d'affectation
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  // Relation vers User
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("affectations")
+}
+
+model Vehicles {
+  vehicleId                  Int             @id @default(autoincrement())
+  licensePlate               String          @unique
+  brand                      String
+  model                      String
+  type                       VehicleTypeEnum
+  vehiclecountry             Workcountry
+  year                       Int
+  mileage                    Int
+  civilRegistration          String
+  administrativeRegistration String
+  acquisitionDate            DateTime
+  usingEntity                String
+  holder                     String
+  chassisNumber              String          @unique
+  status                     VehicleStatus
+  assignedTo                 String? // Peut être le nom ou l'ID d'un utilisateur
+  fuelType                   VehicleFuelType
+
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  authorizations  Vehicleauthorizations[]
+  contentieux     Contentieux[]
+  interventions   Vehicleinterventions[]
+  pieces          Vehiclepieces[]
+  expenses        Vehicleexpenses[]
+  fuelManagements Fuelmanagements[]
+  reforms         Vehiclereforms[]
+
+  @@map("vehicles")
+}
+
+model Statevehicles {
+  stateVehicleId      Int           @id @default(autoincrement())
+  licensePlate        String        @unique
+  brand               String
+  model               String
+  year                Int
+  mileage             Int
+  ministry            String
+  department          String
+  service             String
+  budgetAllocation    String
+  statePropertyNumber String        @unique
+  status              VehicleStatus // Réutilisation de VehicleStatus
+  Inserteridentity    String?
+  InserterCountry     String?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  @@map("state_vehicles")
+}
+
+model Garages {
+  garageId         Int        @id @default(autoincrement())
+  name             String
+  address          String
+  phoneNumber      String
+  manager          String
+  capacity         Int
+  type             GarageType
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relation
+  interventions Vehicleinterventions[]
+
+  @@map("garages")
+}
+
+model Vehicleauthorizations {
+  authorizationId     Int                   @id @default(autoincrement())
+  vehicleId           Int
+  authorizationNumber String                @unique
+  issueDate           DateTime
+  expiryDate          DateTime
+  issuingAuthority    String
+  autorisationtype    AuthorizationTypeEnum
+  purpose             String
+  status              AuthorizationStatus
+  Inserteridentity    String?
+  InserterCountry     String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  // Relation vers Vehicles
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("vehicle_authorizations")
+}
+
+model Contentieux {
+  contentieuxId    Int                         @id @default(autoincrement())
+  vehicleId        Int
+  incidentDate     DateTime
+  description      String
+  faultAttribution ContentieuxFaultAttribution
+  conclusion       String? // Rendu optionnel car la conclusion arrive après
+  status           ContentieuxStatus
+  resolutionDate   DateTime?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime                    @default(now())
+  updatedAt        DateTime                    @updatedAt
+
+  // Relation vers Vehicles
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("contentieux")
+}
+
+model Vehicleinterventions {
+  interventionId       Int                @id @default(autoincrement())
+  vehicleId            Int
+  garageId             Int
+  interventionDate     DateTime
+  type                 InterventionType
+  description          String
+  cost                 Float
+  technician           String
+  devise               DEVISE             @default(XAF)
+  status               InterventionStatus
+  nextInterventionDate DateTime?
+  Inserteridentity     String?
+  InserterCountry      String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  // Relations
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+  garage  Garages  @relation(fields: [garageId], references: [garageId])
+
+  @@map("vehicle_interventions")
+}
+
+model Vehiclepieces {
+  pieceId          Int       @id @default(autoincrement())
+  vehicleId        Int
+  type             PieceType
+  typeLibre        String? // Utilisé pour les types non inclus dans l'Enum
+  description      String?
+  montant          Float
+  dateDebut        DateTime
+  dateFin          DateTime
+  dateProchaine    DateTime?
+  fichierJoint     String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relation
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("vehicle_pieces")
+}
+
+model Vehicleexpenses {
+  expenseId        Int           @id @default(autoincrement())
+  vehicleId        Int
+  date             DateTime
+  nextDate         DateTime?
+  code             String?
+  description      String
+  distance         Int
+  amount           Float
+  devise           DEVISE        @default(XAF)
+  statut           ExpenseStatus
+  fichierJoint     String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relation
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("vehicle_expenses")
+}
+
+model Vehiclereforms {
+  reformId          Int            @id @default(autoincrement())
+  vehicleId         Int            @unique // Une réforme par véhicule
+  reformDate        DateTime
+  reformReason      String
+  salePrice         Float?
+  buyer             String?
+  buyerNumber       String?
+  buyerAddress      String?
+  devise            DEVISE         @default(XAF)
+  disposalMethod    DisposalMethod
+  reformReport      String?
+  reformCertificate String?
+  Inserteridentity  String?
+  InserterCountry   String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  // Relation
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("vehicle_reforms")
+}
+
+model Fuelmanagements {
+  fuelManagementId Int         @id @default(autoincrement())
+  vehicleId        Int
+  date             DateTime
+  typePaiement     PaymentType
+  distance         Int
+  quantity         Float
+  amount           Float
+  prixLitre        Float
+  station          String
+  devise           DEVISE      @default(XAF)
+  fichierJoint     String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relation
+  vehicle Vehicles @relation(fields: [vehicleId], references: [vehicleId])
+
+  @@map("fuel_managements")
+}
+
+model Paymentcards {
+  cardId            Int           @id @default(autoincrement())
+  dateAchat         DateTime
+  typeBadge         CardBadgeType
+  typeBadgeLibre    String?
+  numBadge          String        @unique
+  description       String?
+  montant           Float
+  devise            DEVISE        @default(XAF)
+  dateMiseEnService DateTime
+  fichierJoint      String?
+  Inserteridentity  String?
+  InserterCountry   String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  // Relation
+  cardOperations Cardoperations[]
+
+  @@map("payment_cards")
+}
+
+model Cardoperations {
+  operationId      Int      @id @default(autoincrement())
+  cardId           Int
+  operationDate    DateTime
+  amount           Float
+  devise           DEVISE   @default(XAF)
+  description      String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relation
+  card Paymentcards @relation(fields: [cardId], references: [cardId])
+
+  @@map("card_operations")
+}
+
+model Equipment {
+  equipmentId      Int                @id @default(autoincrement())
+  name             String
+  category         EquipmentCategory
+  type             EquipmentType
+  brand            EquipmentBrand
+  model            String?
+  serialNumber     String             @unique
+  referenceCode    String             @unique
+  supplier         EquipmentSupplier
+  purchaseAmount   Float
+  purchaseDate     DateTime
+  deliveryDate     DateTime
+  warrantyExpiry   DateTime?
+  status           EquipmentStatus
+  devise           DEVISE             @default(XAF)
+  location         String
+  observations     String?
+  attachmentFile   String?
+  ownership        EquipmentOwnership
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  // Relations One-to-Many vers les dépendances
+  assignments        Assignment[]
+  revisions          EquipmentRevisions[]
+  calibrations       Calibration[]
+  maintenanceRecords Maintenance[]
+  repairs            Repair[]
+  expenses           EquipmentExpense[]
+
+  @@map("equipment")
+}
+
+model Assignment {
+  assignmentId     Int              @id @default(autoincrement())
+  equipmentId      Int // Clé étrangère vers Equipment
+  userId           Int // Clé étrangère vers User (l'utilisateur assigné)
+  assignmentDate   DateTime
+  returnDate       DateTime?
+  purpose          String?
+  notes            String?
+  attachmentFile   String?
+  status           AssignmentStatus // Utilisé un seul Enum au lieu d'une liste de string
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // Relations
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("equipment_assignments")
+}
+
+model EquipmentRevisions {
+  revisionId       Int            @id @default(autoincrement())
+  equipmentId      Int // Clé étrangère vers Equipment
+  revisionDate     DateTime
+  validityDate     DateTime?
+  amount           Float
+  supplier         String
+  referenceNumber  String?
+  description      String?
+  status           RevisionStatus
+  nextRevisionDate DateTime?
+  devise           DEVISE         @default(XAF)
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  // Relation
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  @@map("equipment_revisions")
+}
+
+model Calibration {
+  calibrationId       Int       @id @default(autoincrement())
+  equipmentId         Int // Clé étrangère vers Equipment
+  calibrationDate     DateTime
+  validityDate        DateTime?
+  amount              Float
+  supplier            String
+  referenceNumber     String?
+  description         String?
+  nextCalibrationDate DateTime?
+  devise              DEVISE    @default(XAF)
+  Inserteridentity    String?
+  InserterCountry     String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Relation
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  @@map("equipment_calibrations")
+}
+
+model Maintenance {
+  maintenanceId       Int                 @id @default(autoincrement())
+  equipmentId         Int // Clé étrangère vers Equipment
+  maintenanceDate     DateTime
+  maintenanceType     MaintenanceTypeEnum
+  description         String?
+  amount              Float
+  supplier            String
+  technician          String?
+  downtimeHours       Int?
+  nextMaintenanceDate DateTime?
+  devise              DEVISE              @default(XAF)
+  Inserteridentity    String?
+  InserterCountry     String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  // Relation
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  @@map("equipment_maintenance")
+}
+
+model Repair {
+  repairId         Int        @id @default(autoincrement())
+  equipmentId      Int // Clé étrangère vers Equipment
+  repairDate       DateTime
+  repairType       RepairType
+  description      String?
+  amount           Float
+  supplier         String
+  technician       String?
+  partsReplaced    String? // Liste des pièces remplacées
+  warrantyPeriod   Int? // en jours ou mois, à clarifier (assumé en jours)
+  devise           DEVISE     @default(XAF)
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // Relation
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  @@map("equipment_repairs")
+}
+
+model EquipmentExpense {
+  expenseId        Int                  @id @default(autoincrement())
+  equipmentId      Int // Clé étrangère vers Equipment
+  expenseDate      DateTime
+  expenseType      EquipmentExpenseType
+  description      String?
+  amount           Float
+  supplier         String?
+  invoiceNumber    String?
+  devise           DEVISE               @default(XAF)
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  // Relation
+  equipment Equipment @relation(fields: [equipmentId], references: [equipmentId])
+
+  @@map("equipment_expenses")
+}
+
+model Register {
+  registerId       Int      @id @default(autoincrement())
+  registerName     String   @unique
+  location         String
+  responsiblename  String
+  currentBalance   Float    @default(0.0)
+  devise           DEVISE   @default(XAF)
+  attachmentfile   String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relation One-to-Many
+  transactions Transaction[]
+  User         User?         @relation(fields: [userId], references: [id])
+  userId       Int?
+
+  @@map("registers")
+}
+
+model Transaction {
+  transactionId    Int              @id @default(autoincrement())
+  registerId       Int
+  transactionType  TransactionType
+  amount           Float
+  devise           DEVISE           @default(XAF)
+  description      String?
+  expenseType      ExpenseCategory? // Optionnel, car cela peut être un revenu
+  referenceNumber  String?
+  receiptNumber    String?
+  transactionDate  DateTime
+  serviceProvider  String?
+  supplyType       SupplyType?
+  attachment       String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // Relation Many-to-One
+  register Register @relation(fields: [registerId], references: [registerId])
+
+  @@map("transactions")
+}
+
+model Business {
+  businessId       Int            @id @default(autoincrement())
+  name             String
+  status           BusinessStatus
+  client           String
+  contact          Int?
+  startDate        DateTime
+  endDate          DateTime?
+  estimatedCost    Float
+  salePrice        Float
+  comment          String?
+  devise           DEVISE         @default(XAF)
+  progress         Int
+  attachment       String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@map("businesses")
+}
+
+model Contact {
+  contactId        Int            @id @default(autoincrement())
+  contactGroupe    ContactGroup
+  companyName      ContactCompany
+  firstName        String
+  lastName         String
+  email            String?        @unique // Rendu unique et optionnel (un contact peut ne pas avoir d'email)
+  phone            String?
+  address          String?
+  country          String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  otherInvoices OtherInvoice[]
+
+  @@map("contacts")
+}
+
+model ProfessionalService {
+  professionalServiceId Int            @id @default(autoincrement())
+  invoiceNumber         String         @unique
+  serviceType           ServiceType
+  supplier              String
+  amount                Float
+  devise                DEVISE         @default(XAF)
+  invoiceDate           DateTime
+  paymentDate           DateTime?
+  description           String?
+  paymentMethod         PaymentMethod? // Réutilisation de l'Enum existant
+  status                InvoiceStatus
+  // Le champ 'service' était redondant avec 'serviceType', je l'ai retiré.
+  Inserteridentity      String?
+  InserterCountry       String?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  @@map("professional_services")
+}
+
+model CompanyExpense {
+  companyExpenseId Int           @id @default(autoincrement())
+  chargeType       ChargeType
+  userId           Int?
+  amount           Float
+  devise           DEVISE        @default(XAF)
+  paymentDate      DateTime
+  description      String?
+  status           InvoiceStatus
+  service          String?
+  attachment       String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relation
+  employee User? @relation(fields: [userId], references: [id])
+
+  @@map("company_expenses")
+}
+
+model OtherInvoice {
+  otherInvoiceId    Int           @id @default(autoincrement())
+  invoiceNumber     String        @unique
+  category          String?
+  description       String?
+  amount            Float
+  devise            DEVISE        @default(XAF)
+  invoiceDate       DateTime
+  paymentDate       DateTime?
+  supplier          String
+  supplierContactId Int?
+  status            InvoiceStatus
+
+  service          String?
+  attachment       String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  supplierContact Contact? @relation(fields: [supplierContactId], references: [contactId])
+
+  @@map("other_invoices")
+}
+
+model TaxDeclaration {
+  id               Int       @id @default(autoincrement())
+  taxType          TaxType
+  taxAmount        Float // Montant principal de l'impôt/taxe
+  penalties        Float     @default(0.0) // Montant des pénalités
+  declarationDate  DateTime
+  paymentDate      DateTime? // Optionnel si non encore payé
+  status           TaxStatus
+  devise           DEVISE    @default(XAF)
+  referenceNumber  String    @unique
+  notes            String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("tax_declarations")
+}
+
+model Alert {
+  alertId     Int           @id @default(autoincrement())
+  title       String
+  description String? // Déjà spécifié comme nullable
+  dueDate     DateTime // Utilisé DateTime pour la date d'échéance
+  dueTime     String?
+  priority    AlertPriority
+  type        String // Gardé en String pour la flexibilité
+
+  userId Int?
+
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relation optionnelle vers User (si nécessaire)
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("alerts")
+}
+
+model Bank {
+  bankId           Int             @id @default(autoincrement())
+  name             String
+  type             BankAccountType
+  balance          Float           @default(0.0)
+  devise           DEVISE          @default(XAF)
+  attachment       String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  // Relation One-to-Many
+  bankTransactions BankTransaction[]
+
+  @@map("banks")
+}
+
+model BankTransaction {
+  transactionId    Int             @id @default(autoincrement())
+  bankId           Int // Clé étrangère vers le compte Bank concerné
+  date             DateTime
+  description      String?
+  amount           Float
+  devise           DEVISE          @default(XAF)
+  accountType      BankAccountType
+  accountNumber    String
+  attachment       String?
+  name             String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  // Relation Many-to-One
+  bank Bank @relation(fields: [bankId], references: [bankId])
+
+  @@map("bank_transactions")
+}
+
+model OffreDevis {
+  devisId          Int       @id @default(autoincrement())
+  indexNumber      String    @unique
+  clientname       String // Clé étrangère vers le client (Contact)
+  amount           Float // Montant du devis
+  validityDate     DateTime
+  status           DAOStatus // Réutilisation de l'Enum pour le statut
+  devise           DEVISE    @default(XAF)
+  description      String?
+  attachment       String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relation
+
+  @@map("offre_devis")
+}
+
+model OffreDAO {
+  daoId            Int               @id @default(autoincrement())
+  activityCode     String?
+  transmissionDate DateTime
+  daoNumber        String            @unique
+  clientname       String // Clé étrangère vers le client (Contact)
+  contactname      String? // Clé étrangère vers la personne contact (Contact)
+  submissionDate   DateTime?
+  devise           DEVISE            @default(XAF)
+  submissionType   DAOSubmissionType
+  object           String
+  status           DAOStatus
+  attachment       String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@map("offre_daos")
+}
+
+model OffreAMI {
+  amiId            Int      @id @default(autoincrement())
+  activityCode     String?
+  depositDate      DateTime
+  name             String
+  client           String
+  contact          String?
+  submissionDate   DateTime
+  object           String
+  status           String
+  comment          String?
+  soumissionType   String?
+  attachment       String? // URL ou chemin du fichier
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("offre_amis")
+}
+
+model Software {
+  softwareId       Int                  @id @default(autoincrement())
+  name             String
+  vendor           String
+  version          String
+  type             SoftwareType
+  purchaseDate     DateTime
+  amount           Float
+  currency         DEVISE               @default(XAF)
+  licenseCount     Int
+  description      String?
+  maintenance      SoftwareMaintenance?
+  contacts         SoftwareContact[]
+  assignments      SoftwareAssignment[]
+  contracts        SoftwareContract[]
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  @@map("softwares")
+}
+
+model SoftwareMaintenance {
+  maintenanceId    Int                    @id @default(autoincrement())
+  softwareId       Int                    @unique
+  provider         String
+  startDate        DateTime
+  endDate          DateTime
+  price            Float
+  currency         DEVISE                 @default(XAF)
+  periodicity      MaintenancePeriodicity
+  maintenanceType  MaintenanceType
+  observations     String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  software Software @relation(fields: [softwareId], references: [softwareId])
+
+  @@map("software_maintenances")
+}
+
+model SoftwareContact {
+  contactId        Int      @id @default(autoincrement())
+  softwareId       Int
+  role             String
+  name             String?
+  phone            String?
+  email            String?
+  onlineAssistant  String?
+  notes            String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  software Software @relation(fields: [softwareId], references: [softwareId])
+
+  @@map("software_contacts")
+}
+
+model SoftwareAssignment {
+  assignmentId     Int              @id @default(autoincrement())
+  softwareId       Int
+  userId           Int?
+  department       String?
+  assignmentDate   DateTime
+  returnDate       DateTime?
+  purpose          String?
+  notes            String?
+  status           AssignmentStatus
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  software Software @relation(fields: [softwareId], references: [softwareId])
+  user     User?    @relation(fields: [userId], references: [id])
+
+  @@map("software_assignments")
+}
+
+model SoftwareContract {
+  contractId       Int                    @id @default(autoincrement())
+  softwareId       Int
+  contractNumber   String?
+  provider         String
+  startDate        DateTime?
+  endDate          DateTime?
+  renewalDate      DateTime?
+  amount           Float?
+  currency         DEVISE                 @default(XAF)
+  contractType     SoftwareContractType
+  status           SoftwareContractStatus @default(ACTIVE)
+  description      String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  software Software @relation(fields: [softwareId], references: [softwareId])
+
+  @@map("software_contracts")
+}
+
+enum SoftwareType {
+  PURCHASE
+  SUBSCRIPTION
+}
+
+enum MaintenancePeriodicity {
+  MONTHLY
+  QUARTERLY
+  ANNUAL
+  ONE_TIME
+}
+
+enum MaintenanceType {
+  CORRECTIVE
+  EVOLUTIVE
+  SUPPORT
+  PREVENTIVE
+}
+
+enum SoftwareContractType {
+  LICENSE
+  MAINTENANCE
+  SUBSCRIPTION
+  SUPPORT
+}
+
+enum SoftwareContractStatus {
+  ACTIVE
+  EXPIRED
+  PENDING
+  CANCELLED
+}
+
+// Document Management Models
+model Document {
+  documentId       Int             @id @default(autoincrement())
+  version          String?
+  date             DateTime        @default(now())
+  title            String
+  createdBy        String
+  verifiedBy       String?
+  validatedBy      String?
+  fileName         String
+  fileSize         String?
+  status           DocumentStatus  @default(ACTIVE)
+  filePath         String?
+  description      String?
+  category         String?
+  entity           DocumentEntity?
+  countryCode      String?
+  projectCode      String?
+  processCode      String?
+  documentType     DocumentType?
+  documentNumber   String?
+  index            String?
+  Inserteridentity String?
+  InserterCountry  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@map("documents")
+}
+
+enum DocumentStatus {
+  ACTIVE
+  OBSOLETE
+  DRAFT
+  ARCHIVE
+}
+
+enum DocumentEntity {
+  SIL // SITALIA
+  GEO // GEOTOP
+  SIT // SITINFRA
+  GRP // Groupe
+}
+
+enum DocumentType {
+  PROCEDURE // Procédure
+  POLICY // Politique
+  MANUAL // Manuel
+  CONTRACT // Contrat
+  REPORT // Rapport
+  CERTIFICATE // Certificat
+  LICENSE // Licence
+  PERMIT // Permis/Autorisation
+  INVOICE // Facture
+  RECEIPT // Reçu
+  STATEMENT // Relevé
+  SPECIFICATION // Spécification technique
+  DRAWING // Plan/Dessin technique
+  TECHNICAL_DOC // Document technique
+  ADMINISTRATIVE // Document administratif
+  FINANCIAL // Document financier
+  LEGAL // Document légal/juridique
+  QUALITY // Document qualité
+  SAFETY // Document sécurité
+  TRAINING // Document formation
+  OTHER // Autre
+}

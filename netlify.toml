@@ -1,0 +1,38 @@
+# netlify.toml
+[build]
+command = "npm run build" # Votre commande de build existante
+publish = "dist"          # Votre dossier de sortie (e.g. build, dist)
+functions = "netlify/functions-dist" # Le dossier de vos fonctions compilées (JS)
+
+[build.environment]
+SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
+
+# Configuration pour le déploiement de Prisma dans un environnement Serverless
+
+[functions]
+# Use nft bundler for better serverless optimization (excludes large binaries)
+node_bundler = "nft"
+# Keep Prisma external - it will be available from node_modules at runtime
+external_node_modules = ["@prisma/client", "prisma"]
+
+# Redirects to map /api/* to /.netlify/functions/*
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+force = false
+
+# SPA fallback - redirect all non-file requests to index.html
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[dev]
+edge_functions = []             # Désactive totalement les Edge Functions
+autoLaunch = false 
+
+
+

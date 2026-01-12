@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  app:
+    build: .                     # Construit l'image avec ton Dockerfile
+    container_name: gestion-app2 
+    command: sh wait-for-db.sh sh -c "npx prisma generate && npx prisma db push && npm run dev"
+    ports:
+      - "8888:8888"
+      - "5173:5173"              
+    volumes:
+      - .:/app                   
+      - /app/node_modules        # Utilise les node_modules du conteneur
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: mysql://root:root@db:3306/netlify
+      VITE_SUPABASE_URL: https://xqmiwpeaiohnjymkaejm.supabase.co
+      VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxbWl3cGVhaW9obmp5bWthZWptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NjcwNDksImV4cCI6MjA3NzE0MzA0OX0.JAWLbXrqX9bwH--CaXMFGTN7wgBaajLzHrleP-JuVvE
+    depends_on:
+      - db                       # Attendre que MySQL démarre
+    restart: unless-stopped       # Redémarrage automatique en cas d'erreur
+
+ 
+  db:
+    image: mysql:8.3
+    container_name: gestion-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: netlify
+    ports:
+      - "3306:3306"               
+    volumes:
+      - mysql_data:/var/lib/mysql # Volume nommé pour persister les données
+
+
+volumes:
+  mysql_data:
