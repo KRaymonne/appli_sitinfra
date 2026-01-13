@@ -95,7 +95,7 @@ const getMenuItems = (t: any, role: string): Array<{ icon: any; labelKey: string
     { icon: FolderOpen, labelKey: 'sidebar.documents', path: '/dashboard/documents' },
   ];
 
-  if (['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF'].includes(role)) {
+  if (['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF'].includes(role)) {
     return adminItems;
   }
   if (role === 'SECRETARY') return secretaryItems;

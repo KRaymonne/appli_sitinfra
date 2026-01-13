@@ -20,15 +20,13 @@ import Register from './pages/Register';
 import { SoftwareManagement } from './pages/Software';
 import { DocumentManagement } from './pages/Document';
 import { Organigramme } from './pages/Organigramme';
-import { Groupe } from './pages/Groupe';
+import { OrganigrammeGroupe } from './pages/OrganigrammeGroupe';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import { RoleBasedDashboard } from './pages/RoleBasedDashboard';
-
-
 
 function App() {
   return (
@@ -64,100 +62,100 @@ function App() {
                     <RoleBasedDashboard />
                   </ProtectedRoute>
                 } />
-                {/* Personnel - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT */}
+                {/* Personnel - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT */}
                 <Route path="personnel" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT']}>
                     <Personnel />
                   </ProtectedRoute>
                 } />
-                {/* Contacts - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Contacts - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="contacts" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Contacts />
                   </ProtectedRoute>
                 } />
-                {/* Equipements - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Equipements - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="equipements" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Equipment />
                   </ProtectedRoute>
                 } />
-                {/* Offres - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Offres - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="offres" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Offers />
                   </ProtectedRoute>
                 } />
-                {/* Affaires - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Affaires - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="affaires" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Business />
                   </ProtectedRoute>
                 } />
-                {/* Alertes - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Alertes - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="alertes" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Alerts />
                   </ProtectedRoute>
                 } />
-                {/* Parc Auto - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Parc Auto - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="parc-auto" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Vehicles />
                   </ProtectedRoute>
                 } />
-                {/* Factures - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Factures - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="factures" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Invoices />
                   </ProtectedRoute>
                 } />
-                {/* Banques - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
+                {/* Banques - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
                 <Route path="banques" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
                     <Banks />
                   </ProtectedRoute>
                 } />
-                {/* Registres - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
+                {/* Registres - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
                 <Route path="registres" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
                     <Register />
                   </ProtectedRoute>
                 } />
-                {/* Impôts - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
+                {/* Impôts - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, ACCOUNTANT */}
                 <Route path="impots" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'ACCOUNTANT']}>
                     <Taxes />
                   </ProtectedRoute>
                 } />
-                {/* Users Create - Only accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF */}
+                {/* Users Create - Only accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF */}
                 <Route path="users/create" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF']}>
                     <UsersCreate />
                   </ProtectedRoute>
                 } />
-                {/* Software - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Software - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="software" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <SoftwareManagement />
                   </ProtectedRoute>
                 } />
-                {/* Documents - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Documents - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="documents" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <DocumentManagement />
                   </ProtectedRoute>
                 } />
-                {/* Organigramme - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Organigramme - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="organigramme" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
                     <Organigramme />
                   </ProtectedRoute>
                 } />
-                {/* Groupe - Accessible by: SUPER_ADMIN, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
+                {/* Organigramme Groupe - Accessible by: SUPER_ADMIN, PRESIDENT_DIRECTEUR_GENERALE_GLOBALE, PRESIDENT_DIRECTEUR_GENERALE, ADMIN, DIRECTEUR_TECHNIQUE, DIRECTEUR_ADMINISTRATIF, SECRETARY, ACCOUNTANT, EMPLOYEE */}
                 <Route path="groupe" element={
-                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
-                    <Groupe />
+                  <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE', 'PRESIDENT_DIRECTEUR_GENERALE', 'ADMIN', 'DIRECTEUR_TECHNIQUE', 'DIRECTEUR_ADMINISTRATIF', 'SECRETARY', 'ACCOUNTANT', 'EMPLOYEE']}>
+                    <OrganigrammeGroupe />
                   </ProtectedRoute>
                 } />
               </Route>

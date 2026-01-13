@@ -28,6 +28,7 @@ npm --version
 🚀 Installation and Setup
 1. Clone the project (if needed)
 git clone <repo-url>
+
 cd netlify_v1
 
 2. Install dependencies

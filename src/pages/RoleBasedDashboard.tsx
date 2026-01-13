@@ -8,11 +8,14 @@ import { DirecteurAdministratifDashboard } from './dashboard/DirecteurAdministra
 import { EmployeeDashboard } from './dashboard/EmployeeDashboard';
 import { SecretaryDashboard } from './dashboard/SecretaryDashboard';
 import { AccountantDashboard } from './dashboard/AccountantDashboard';
+import { PresidentDirecteurGeneraleDashboard } from './dashboard/PresidentDirecteurGeneraleDashboard';
 import { DefaultDashboard } from './dashboard/DefaultDashboard';
 
 // Liste des rôles qui ont un dashboard spécifique
 const ROLES_WITH_SPECIFIC_DASHBOARD = [
   'SUPER_ADMIN',
+  'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE',
+  'PRESIDENT_DIRECTEUR_GENERALE',
   'ADMIN',
   'DIRECTOR',
   'DIRECTEUR_TECHNIQUE',
@@ -34,6 +37,10 @@ export function RoleBasedDashboard() {
   switch (role) {
     case 'SUPER_ADMIN':
       return <SuperAdminDashboard />;
+    case 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE':
+      return <SuperAdminDashboard />;
+    case 'PRESIDENT_DIRECTEUR_GENERALE':
+      return <PresidentDirecteurGeneraleDashboard />;
     case 'ADMIN':
       return <AdminDashboard />;
     case 'DIRECTOR':

@@ -18,8 +18,12 @@ const ROLE_OPTIONS = [
   'INTERN',
   'DRIVER',
   'PRESIDENT_DIRECTEUR_GENERALE',
+  'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE',
   'SECRETARIAT',
+  'SECRETARIAT_GLOBALE',
   'DIRECTION_ADMINISTRATIVE',
+  'DIRECTION_ADMINISTRATIVE_COMMERCIAL_GLOBALE',
+  'DIRECTION_TECHNIQUE_GLOBALE',
   'AUDIT_ET_CONTROLE_DE_GESTION',
   'ADMINISTRATIF_FINANCIER',
   'RESSOURCES_HUMAINES',
@@ -44,6 +48,24 @@ const IDENTITY_TYPE_OPTIONS = ['NATIONAL_ID_CARD','PASSPORT','DRIVER_LICENSE'];
 const STRUCTURE_OPTIONS = ['SITINFRA', 'SITALIA', 'PKBIM', 'GEOTOP', 'SITInfrastructure'];
 const WORKCOUNTRY_OPTIONS = ['IVORY_COAST','GHANA','BENIN','CAMEROON','TOGO','ROMANIE','ITALIE','ITALIEPKBIM','GUINEE','BURKINAFASO','SIERRALEONE'];
 const DEVISE_OPTIONS = ['XAF','XOF','EUR','GNF','GHS','RON','SLE','USD'];
+
+// Mapping des pays vers les noms des citoyens (appellations des citoyens des pays dans workcountry)
+const COUNTRY_TO_NATIONALITY: Record<string, string> = {
+  'IVORY_COAST': 'Ivoirien(ne)',
+  'GHANA': 'Ghanéen(ne)',
+  'BENIN': 'Béninois(e)',
+  'CAMEROON': 'Camerounais(e)',
+  'TOGO': 'Togolais(e)',
+  'ROMANIE': 'Roumain(e)',
+  'ITALIE': 'Italien(ne)',
+  'ITALIEPKBIM': 'Italien(ne)',
+  'GUINEE': 'Guinéen(ne)',
+  'BURKINAFASO': 'Burkinabè',
+  'SIERRALEONE': 'Sierra-Léonais(e)'
+};
+
+// Options de nationalité basées sur les pays dans workcountry (valeurs uniques triées)
+const NATIONALITY_OPTIONS = Array.from(new Set(WORKCOUNTRY_OPTIONS.map(country => COUNTRY_TO_NATIONALITY[country]))).sort();
 
 interface UsersCreateProps {
   onUserCreated?: () => void;
@@ -128,7 +150,8 @@ export function UsersCreate({ onUserCreated, initialData, isEdit = false, onCanc
   }, [initialData]);
 
   const requiredKeys = useMemo(() => [
-    'employeeNumber','role','status','firstName','lastName','email','dateOfBirth','placeOfBirth','devise','civilityDropdown','maritalStatus','nationality','identityType','identity','workcountry','address','phone','phoneno','gender','country','emergencyName','emergencyContact','department','salary'
+    'employeeNumber','role','status','firstName','lastName','email','dateOfBirth','placeOfBirth','devise','civilityDropdown','maritalStatus','identityType','identity','workcountry','address','phone','phoneno','gender','country','emergencyName','emergencyContact','department','salary'
+    // nationality is optional
   ], []);
 
   const onChange = (key: string, value: any) => {
@@ -163,6 +186,12 @@ export function UsersCreate({ onUserCreated, initialData, isEdit = false, onCanc
       // Ensure structureName and isStructureResponsible are properly included
       payload.structureName = form.structureName || null;
       payload.isStructureResponsible = Boolean(form.isStructureResponsible);
+      // Ensure nationality is properly included - always send it, even if empty
+      if (form.nationality !== undefined && form.nationality !== null) {
+        payload.nationality = String(form.nationality).trim();
+      } else {
+        payload.nationality = '';
+      }
 
       const res = await fetch(url, {
         method,
@@ -288,7 +317,10 @@ export function UsersCreate({ onUserCreated, initialData, isEdit = false, onCanc
 
           <div>
             <label className="block text-sm font-medium mb-1">{t('personnel.forms.labels.nationality')}</label>
-            <input type="text" value={form.nationality} onChange={(e) => onChange('nationality', e.target.value)} className="w-full border rounded px-3 py-2" />
+            <select value={form.nationality} onChange={(e) => onChange('nationality', e.target.value)} className="w-full border rounded px-3 py-2">
+              <option value="">Sélectionner une nationalité</option>
+              {NATIONALITY_OPTIONS.map(nat => <option key={nat} value={nat}>{nat}</option>)}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">{t('personnel.forms.labels.identityType')}</label>

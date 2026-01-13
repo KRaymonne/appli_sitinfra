@@ -34,7 +34,7 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { employeeNumber, firstName, lastName, email, password, phone, role, status, workcountry, structureName, isStructureResponsible } = JSON.parse(event.body || '{}');
+    const { employeeNumber, firstName, lastName, email, password, phone, role, status, workcountry, structureName, isStructureResponsible, nationality, gender } = JSON.parse(event.body || '{}');
 
     // Required fields validation
     if (!email || !phone) {
@@ -88,9 +88,9 @@ export const handler: Handler = async (event) => {
       // Set defaults for required Prisma fields
       dateOfBirth: new Date('1990-01-01'),
       placeOfBirth: '',
-      civilityDropdown: 'MALE',
+      civilityDropdown: gender || 'MALE', // Use gender for civilityDropdown
       maritalStatus: 'SINGLE',
-      nationality: '',
+      nationality: nationality || '',
       identityType: 'NATIONAL_ID_CARD',
       identity: '',
       workcountry: workcountry || 'IVORY_COAST',
@@ -98,7 +98,7 @@ export const handler: Handler = async (event) => {
       isStructureResponsible: isStructureResponsible || false,
       address: '',
       phoneno: '',
-      gender: 'MALE',
+      gender: gender || 'MALE', // Use provided gender or default to MALE
       country: '',
       emergencyName: '',
       emergencyContact: '',

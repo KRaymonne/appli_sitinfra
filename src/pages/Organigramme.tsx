@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowLeft } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ViewDetailsModal from '../Formscomponents/PersonnelForms/lists/ViewDetailsModal';
 import { useAuth } from '../context/AuthContext';
 
@@ -144,6 +145,8 @@ const WorkcountryEnum = {
 
 export function Organigramme() {
   const { role, workcountry: userWorkcountry, userId } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -151,16 +154,37 @@ export function Organigramme() {
   const [userStructureName, setUserStructureName] = useState<string | null>(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   
+  // Check if coming from groupe page
+  const fromGroupe = searchParams.get('fromGroupe') === 'true';
+  const urlCountry = searchParams.get('country');
+  const urlStructure = searchParams.get('structure');
+  
   // Determine if user is admin (can click to see details)
-  const isAdmin = role === 'SUPER_ADMIN' || role === 'ADMIN' || role === 'DIRECTEUR_TECHNIQUE' || role === 'DIRECTEUR_ADMINISTRATIF';
-  const isSuperAdmin = role === 'SUPER_ADMIN';
+  const isAdmin = role === 'SUPER_ADMIN' || role === 'ADMIN' || role === 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE' || role === 'DIRECTEUR_TECHNIQUE' || role === 'DIRECTEUR_ADMINISTRATIF';
+  const isSuperAdmin = role === 'SUPER_ADMIN' || role === 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE';
   
-  // For non-super-admin users, use their own workcountry and structureName
-  const [selectedCountry, setSelectedCountry] = useState<string>('CAMEROON');
-  const [selectedStructure, setSelectedStructure] = useState<string>('SITINFRA');
+  // Initialize selectedCountry and selectedStructure from URL params or defaults
+  const [selectedCountry, setSelectedCountry] = useState<string>(urlCountry || 'CAMEROON');
+  const [selectedStructure, setSelectedStructure] = useState<string>(urlStructure || 'SITINFRA');
   
+  // Update selectedCountry and selectedStructure when URL params change
+  useEffect(() => {
+    if (urlCountry) {
+      setSelectedCountry(urlCountry);
+    }
+    if (urlStructure) {
+      setSelectedStructure(urlStructure);
+    }
+  }, [urlCountry, urlStructure]);
+
   // Fetch current user's structureName
   useEffect(() => {
+    // If coming from groupe, skip user data fetch and allow viewing
+    if (fromGroupe) {
+      setLoadingUserData(false);
+      return;
+    }
+
     const fetchUserData = async () => {
       if (!userId) {
         setLoadingUserData(false);
@@ -174,8 +198,8 @@ export function Organigramme() {
           const user = Array.isArray(userData) ? userData.find((u: any) => u.id === Number(userId)) : userData;
           if (user) {
             setUserStructureName(user.structureName || null);
-            // Set default filters for non-super-admin users
-            if (!isSuperAdmin) {
+            // Set default filters for non-super-admin users (only if not from groupe)
+            if (!isSuperAdmin && !fromGroupe) {
               if (user.workcountry) {
                 setSelectedCountry(user.workcountry);
               }
@@ -193,10 +217,36 @@ export function Organigramme() {
     };
     
     fetchUserData();
-  }, [userId, isSuperAdmin]);
+  }, [userId, isSuperAdmin, fromGroupe]);
 
-  // Fetch users based on filters (only if user can view organigramme)
+  // Fetch users based on filters
   useEffect(() => {
+    // If coming from groupe, allow fetching without user data check
+    if (fromGroupe) {
+      const fetchUsers = async () => {
+        setLoading(true);
+        try {
+          const params = new URLSearchParams({
+            workcountry: selectedCountry,
+            structureName: selectedStructure,
+          });
+          const response = await fetch(`/.netlify/functions/organigramme-responsibles?${params}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch users');
+          }
+          const data = await response.json();
+          setUsers(data.users || []);
+        } catch (error) {
+          console.error('Error fetching users:', error);
+          setUsers([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUsers();
+      return;
+    }
+
     // Don't fetch if user data is still loading or if user cannot view
     if (loadingUserData || !userWorkcountry || !userStructureName) {
       return;
@@ -224,7 +274,7 @@ export function Organigramme() {
     };
 
     fetchUsers();
-  }, [selectedCountry, selectedStructure, loadingUserData, userWorkcountry, userStructureName]);
+  }, [selectedCountry, selectedStructure, loadingUserData, userWorkcountry, userStructureName, fromGroupe]);
 
   // Group users by role
   const usersByRole = useMemo(() => {
@@ -246,11 +296,13 @@ export function Organigramme() {
     }
   };
   
-  // Check if user can view organigramme
-  const canViewOrganigramme = userWorkcountry && userStructureName;
+  // Check if user can view organigramme (skip check if coming from groupe)
+  const canViewOrganigramme = fromGroupe || (userWorkcountry && userStructureName);
   const missingInfo = [];
-  if (!userWorkcountry) missingInfo.push('pays de travail (workcountry)');
-  if (!userStructureName) missingInfo.push('structure (structureName)');
+  if (!fromGroupe) {
+    if (!userWorkcountry) missingInfo.push('pays de travail (workcountry)');
+    if (!userStructureName) missingInfo.push('structure (structureName)');
+  }
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -337,8 +389,18 @@ export function Organigramme() {
     const roleLabels = getRoleLabels(selectedCountry);
     return (
     <div className="p-6 space-y-6">
+      {/* Back button if coming from groupe */}
+      {fromGroupe && (
+        <button
+          onClick={() => navigate('/dashboard/groupe')}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors mb-4"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Retour à l'organigramme groupe
+        </button>
+      )}
 
-      {/* Filters - Only editable for SUPER_ADMIN */}
+      {/* Filters - Only editable for SUPER_ADMIN or when coming from groupe */}
       <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -348,9 +410,9 @@ export function Organigramme() {
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              disabled={!isSuperAdmin}
+              disabled={!isSuperAdmin && !fromGroupe}
               className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
-                !isSuperAdmin ? 'bg-gray-100 cursor-not-allowed' : ''
+                !isSuperAdmin && !fromGroupe ? 'bg-gray-100 cursor-not-allowed' : ''
               }`}
             >
               {Object.entries(WorkcountryEnum).map(([key, value]) => (
@@ -359,7 +421,7 @@ export function Organigramme() {
                 </option>
               ))}
             </select>
-            {!isSuperAdmin && (
+            {!isSuperAdmin && !fromGroupe && (
               <p className="text-xs text-gray-500 mt-1">Votre pays de travail</p>
             )}
           </div>
@@ -370,9 +432,9 @@ export function Organigramme() {
             <select
               value={selectedStructure}
               onChange={(e) => setSelectedStructure(e.target.value)}
-              disabled={!isSuperAdmin}
+              disabled={!isSuperAdmin && !fromGroupe}
               className={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
-                !isSuperAdmin ? 'bg-gray-100 cursor-not-allowed' : ''
+                !isSuperAdmin && !fromGroupe ? 'bg-gray-100 cursor-not-allowed' : ''
               }`}
             >
               {Object.entries(StructureEnum).map(([key, value]) => (
@@ -381,7 +443,7 @@ export function Organigramme() {
                 </option>
               ))}
             </select>
-            {!isSuperAdmin && (
+            {!isSuperAdmin && !fromGroupe && (
               <p className="text-xs text-gray-500 mt-1">Votre structure</p>
             )}
           </div>

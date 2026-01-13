@@ -19,8 +19,12 @@ const ROLE_OPTIONS = [
   'INTERN',
   'DRIVER',
   'PRESIDENT_DIRECTEUR_GENERALE',
+  'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE',
   'SECRETARIAT',
+  'SECRETARIAT_GLOBALE',
   'DIRECTION_ADMINISTRATIVE',
+  'DIRECTION_ADMINISTRATIVE_COMMERCIAL_GLOBALE',
+  'DIRECTION_TECHNIQUE_GLOBALE',
   'AUDIT_ET_CONTROLE_DE_GESTION',
   'ADMINISTRATIF_FINANCIER',
   'RESSOURCES_HUMAINES',
@@ -41,6 +45,25 @@ const ROLE_OPTIONS = [
 
 const STRUCTURE_OPTIONS = ['SITINFRA', 'SITALIA', 'PKBIM', 'GEOTOP', 'SITInfrastructure'];
 const WORKCOUNTRY_OPTIONS = ['IVORY_COAST','GHANA','BENIN','CAMEROON','TOGO','ROMANIE','ITALIE','ITALIEPKBIM','GUINEE','BURKINAFASO','SIERRALEONE'];
+const GENDER_OPTIONS = ['MALE', 'FEMALE'];
+
+// Mapping des pays vers les noms des citoyens (appellations des citoyens des pays dans workcountry)
+const COUNTRY_TO_NATIONALITY: Record<string, string> = {
+  'IVORY_COAST': 'Ivoirien(ne)',
+  'GHANA': 'Ghanéen(ne)',
+  'BENIN': 'Béninois(e)',
+  'CAMEROON': 'Camerounais(e)',
+  'TOGO': 'Togolais(e)',
+  'ROMANIE': 'Roumain(e)',
+  'ITALIE': 'Italien(ne)',
+  'ITALIEPKBIM': 'Italien(ne)',
+  'GUINEE': 'Guinéen(ne)',
+  'BURKINAFASO': 'Burkinabè',
+  'SIERRALEONE': 'Sierra-Léonais(e)'
+};
+
+// Options de nationalité basées sur les pays dans workcountry (valeurs uniques triées)
+const NATIONALITY_OPTIONS = Array.from(new Set(WORKCOUNTRY_OPTIONS.map(country => COUNTRY_TO_NATIONALITY[country]))).sort();
 
 const Signup: React.FC = () => {
   const [form, setForm] = useState({
@@ -55,6 +78,8 @@ const Signup: React.FC = () => {
     workcountry: 'IVORY_COAST',
     structureName: '',
     isStructureResponsible: false,
+    nationality: '',
+    gender: 'MALE',
   });
   
   const [error, setError] = useState('');
@@ -68,7 +93,7 @@ const Signup: React.FC = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+    console.log(form);
     // Validation
     if (!form.email || !form.phone) {
       setError('Les champs marqués d\'un astérisque (*) sont obligatoires');
@@ -277,6 +302,39 @@ const Signup: React.FC = () => {
                 >
                   <option value="false">Non</option>
                   <option value="true">Oui</option>
+                </select>
+              </div>
+
+              {/* Nationality */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nationalité
+                </label>
+                <select
+                  value={form.nationality}
+                  onChange={(e) => setForm({ ...form, nationality: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Sélectionner une nationalité</option>
+                  {NATIONALITY_OPTIONS.map(nat => (
+                    <option key={nat} value={nat}>{nat}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Gender */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Genre
+                </label>
+                <select
+                  value={form.gender}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {GENDER_OPTIONS.map(gender => (
+                    <option key={gender} value={gender}>{gender === 'MALE' ? 'Masculin' : 'Féminin'}</option>
+                  ))}
                 </select>
               </div>
             </div>

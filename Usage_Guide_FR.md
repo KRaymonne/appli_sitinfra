@@ -139,7 +139,7 @@ Pour une formation supplémentaire ou du support :
 Ce système est adapté pour la gestion organisationnelle en Côte d'Ivoire :
 - Interface disponible en français.
 - Paramètres de devise configurés pour le Franc CFA d'Afrique de l'Ouest (XOF).
-- Modules fiscaux alignés sur les exigences locales.
+- Modules fiscaux alignés sur les exigences locales. 
 
 
 Pour des questions spécifiques sur l'utilisation dans le contexte de la Côte d'Ivoire, contacter moi par mail ou tel ( raymonnekemayou@gmail.com// +23756390396) .

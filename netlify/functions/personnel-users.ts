@@ -26,7 +26,33 @@ export const handler: Handler = async (event) => {
   try {
     switch (event.httpMethod) {
       case 'GET': {
+        const queryParams = event.queryStringParameters || {};
+        const { id, role: roleFilter, workcountry: workcountryFilter } = queryParams;
+        
+        // Log pour débogage
+        // console.log('Query parameters received:', JSON.stringify(queryParams));
+        // console.log('roleFilter:', roleFilter);
+        // console.log('workcountryFilter:', workcountryFilter);
+        
+        // Construire le where - Prisma combine automatiquement les conditions avec AND
+        const where: any = {};
+        
+        if (id) {
+          where.id = parseInt(id, 10);
+        }
+        
+        // Ajouter role et workcountry - ils seront combinés avec AND automatiquement
+        if (roleFilter) {
+          where.role = roleFilter;
+        }
+        if (workcountryFilter) {
+          where.workcountry = workcountryFilter;
+        }
+        
+        console.log('Where clause:', JSON.stringify(where));
+        
         const users = await prisma.user.findMany({
+          where: Object.keys(where).length > 0 ? where : undefined,
           orderBy: { createdAt: 'desc' },
           select: {
             id: true,
@@ -63,6 +89,13 @@ export const handler: Handler = async (event) => {
             updatedAt: true,
           }
         });
+        
+        console.log('Users found:', users.length);
+        if (users.length > 0) {
+          console.log('First user workcountry:', users[0].workcountry);
+          console.log('First user role:', users[0].role);
+        }
+        
         return json(200, users);
       }
       case 'POST': {
@@ -121,20 +154,19 @@ export const handler: Handler = async (event) => {
           devise,
           civilityDropdown,
           maritalStatus,
-          nationality,
-            identityType,
-            identity,
-            workcountry,
-            address,
-            phone,
-            phoneno,
-            gender,
-            country,
-            emergencyName,
-            emergencyContact,
-            department,
-            salary,
-            // structureName and isStructureResponsible are optional
+          identityType,
+          identity,
+          workcountry,
+          address,
+          phone,
+          phoneno,
+          gender,
+          country,
+          emergencyName,
+          emergencyContact,
+          department,
+          salary,
+          // nationality, structureName and isStructureResponsible are optional
         } as Record<string, unknown>;
 
         const missing = Object.entries(required)
@@ -147,6 +179,10 @@ export const handler: Handler = async (event) => {
         // Prepare data for database
         const finalStructureName = structureName && structureName.trim() !== '' ? structureName : null;
         const finalIsStructureResponsible = isStructureResponsible !== undefined ? Boolean(isStructureResponsible) : false;
+        // Handle nationality - use the value from payload, default to empty string if not provided
+        const finalNationality = (nationality !== undefined && nationality !== null && String(nationality).trim() !== '') 
+          ? String(nationality).trim() 
+          : '';
         
         const created = await prisma.user.create({
           data: {
@@ -162,7 +198,7 @@ export const handler: Handler = async (event) => {
             devise,
             civilityDropdown,
             maritalStatus,
-            nationality,
+            nationality: finalNationality,
             identityType,
             identity,
             workcountry,

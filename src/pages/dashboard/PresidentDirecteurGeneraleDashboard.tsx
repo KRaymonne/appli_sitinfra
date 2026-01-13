@@ -5,11 +5,9 @@ import { LayoutDashboard, Users, Contact, Wrench, Package,
   Briefcase, AlertTriangle, Car, FileText, 
   Banknote, Wallet, Calculator, Monitor, FolderOpen, Network, Building } from 'lucide-react';
 
-export function SuperAdminDashboard() {
-  const { email, firstName, lastName, role } = useAuth();
+export function PresidentDirecteurGeneraleDashboard() {
+  const { email, firstName, lastName } = useAuth();
   const { t } = useTranslation();
-  
-  const isPresidentGlobal = role === 'PRESIDENT_DIRECTEUR_GENERALE_GLOBALE';
   
   const getDisplayName = () => {
     if (firstName && lastName) {
@@ -25,7 +23,7 @@ export function SuperAdminDashboard() {
         return firstPart.charAt(0).toUpperCase() + firstPart.slice(1);
       }
     }
-    return isPresidentGlobal ? 'Président Directeur Général Global' : 'Super Admin';
+    return 'Président Directeur Général';
   };
   const displayName = getDisplayName();
 
@@ -61,9 +59,7 @@ export function SuperAdminDashboard() {
                 Bienvenue, {displayName} !
               </h1>
               <p className="text-gray-600 mt-1">
-                {isPresidentGlobal 
-                  ? 'Tableau de bord de gestion d\'entreprise - Président Directeur Général Global'
-                  : 'Tableau de bord de gestion d\'entreprise - Super Admin'}
+                Tableau de bord de gestion d'entreprise - Président Directeur Général
               </p>
             </div>
           </div>
@@ -142,4 +138,3 @@ export function SuperAdminDashboard() {
     </div>
   );
 }
-
